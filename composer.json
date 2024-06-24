@@ -11,7 +11,8 @@
         "filament/filament": "^3.0-stable",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "livewire/livewire": "^3.5"
+        "livewire/livewire": "^3.5",
+        "pelmered/filament-money-field": "^1.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
