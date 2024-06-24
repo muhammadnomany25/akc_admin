@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\InvoiceItemResource\Pages;
-use App\Filament\Resources\InvoiceItemResource\RelationManagers;
-use App\Models\InvoiceItem;
+use App\Filament\Resources\TechnicianResource\Pages;
+use App\Filament\Resources\TechnicianResource\RelationManagers;
+use App\Models\Technician;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,31 +13,28 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Pelmered\FilamentMoneyField\Tables\Columns\MoneyColumn;
 
-class InvoiceItemResource extends Resource
+class TechnicianResource extends Resource
 {
-    protected static ?string $model = InvoiceItem::class;
+    protected static ?string $model = Technician::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $modelLabel = 'Fix item';
 
-    protected static ?int $navigationSort = 2;
-
+    protected static ?int $navigationSort = 1;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title_ar')
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('title_en')
+                Forms\Components\TextInput::make('phoneNumber')
+                    ->tel()
+                    ->telRegex('/^(\+965[4569]\d{7})$/'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('cost')
-                    ->required()
-                    ->numeric()
-                    ->prefix('KWD'),
             ]);
     }
 
@@ -44,14 +42,18 @@ class InvoiceItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title_ar')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('title_en')
+                Tables\Columns\TextColumn::make('phoneNumber')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('cost')
-                    ->money('kwd')
-                    ->sortable(),
-
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -78,9 +80,9 @@ class InvoiceItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListInvoiceItems::route('/'),
-            'create' => Pages\CreateInvoiceItem::route('/create'),
-            'edit' => Pages\EditInvoiceItem::route('/{record}/edit'),
+            'index' => Pages\ListTechnicians::route('/'),
+            'create' => Pages\CreateTechnician::route('/create'),
+            'edit' => Pages\EditTechnician::route('/{record}/edit'),
         ];
     }
 }
