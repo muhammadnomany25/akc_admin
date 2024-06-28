@@ -7,19 +7,19 @@ use App\Filament\Resources\Blog\PostResource;
 use App\Filament\Resources\OrderResource;
 use App\Models\Blog\Post;
 use App\Models\Order;
-use App\Models\OrderNote;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\TextInput;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
-use Illuminate\Contracts\Support\Htmlable;
-use Filament\Actions\Action;
-use Illuminate\Support\Facades\Hash;
 
 class ViewOrder extends ViewRecord
 {
     protected static string $resource = OrderResource::class;
 
+    public static function getNavigationLabel(): string
+    {
+        return trans('orders.viewAction');
+    }
 
     protected function getActions(): array
     {
@@ -30,7 +30,30 @@ class ViewOrder extends ViewRecord
     {
         return [
             Action::make('activities')
-                ->url(fn ($record) => Activities::getSubjectUrl($record)),
+                ->url(fn($record) => Activities::getSubjectUrl($record)),
+
+            Action::make('technician')
+                ->label(trans('orders.changeOrAssignTechnician'))
+                ->form([
+                    Select::make('technician_id')
+                        ->relationship(name: 'technician', titleAttribute: 'name')
+                        ->searchable()
+                        ->label(trans('orders.technician'))
+                        ->preload()
+                        ->default($this->record->technician_id),
+                ])
+                ->action(function (array $data, Order $record): void {
+                    $this->record->update([
+                        'technician_id' => $data['technician_id'],
+                    ]);
+
+                    Notification::make()
+                        ->title('Success')
+                        ->body('Order Updated Successfully')
+                        ->success()
+                        ->send();
+                    $this->refreshFormData(['technician_id']);
+                })
         ];
     }
 }

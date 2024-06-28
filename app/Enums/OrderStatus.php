@@ -30,6 +30,11 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
         };
     }
 
+    public function label(): string
+    {
+        return trans('status.' . $this->value);
+    }
+
     public function getColor(): string|array|null
     {
         return match ($this) {

@@ -13,6 +13,11 @@ class EditOrder extends EditRecord
 
     protected static string $resource = OrderResource::class;
 
+    public static function getNavigationLabel(): string
+    {
+        return trans('orders.editAction');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

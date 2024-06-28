@@ -29,15 +29,16 @@ class EditTechnician extends EditRecord
         return [
             Actions\DeleteAction::make(),
             Actions\Action::make('changePassword')
+                ->label(trans('technicians.changePassword'))
                 ->form([
                     TextInput::make('new_password')
+                        ->label(trans('technicians.new_password'))
                         ->password()
-                        ->label('New Password')
                         ->required()
                         ->revealable(),
                     TextInput::make('new_password_confirmation')
                         ->password()
-                        ->label('Confirm Password')
+                        ->label(trans('technicians.new_password_confirmation'))
                         ->required()
                         ->same('new_password')
                         ->revealable()
@@ -60,11 +61,14 @@ class EditTechnician extends EditRecord
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(trans('technicians.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phoneNumber')
+                    ->label(trans('technicians.phoneNumber'))
                     ->tel()
-                    ->telRegex('/^(\+965[4569]\d{7})$/'),
+                    ->telRegex('/^([4569]\d{7})$/')
+                    ->prefix('+965'),
             ]);
     }
 }

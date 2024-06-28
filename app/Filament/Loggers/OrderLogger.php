@@ -26,25 +26,25 @@ class OrderLogger extends Logger
         return $logger
             ->fields([
                 Field::make('client_name')
-                    ->label(__('Client name')),
+                    ->label(__(trans('orders.client_name'))),
 
                 Field::make('client_phone')
-                    ->label(__('Client Phone')),
+                    ->label(__(trans('orders.client_phone'))),
 
                 Field::make('client_address')
-                    ->label(__('Client Address')),
+                    ->label(__(trans('orders.client_address'))),
 
                 Field::make('client_flat_number')
-                    ->label(__('Client Flat number')),
+                    ->label(__(trans('orders.client_flat_number'))),
 
                 Field::make('status')
-                    ->label(__('Status')),
+                    ->label(__(trans('orders.status'))),
 
                 Field::make('technician.name')
-                    ->label(__('Technician')),
+                    ->label(__(trans('orders.technician'))),
 
                 Field::make('notes')
-                    ->label(__('Notes')),
+                    ->label(__(trans('orders.notes'))),
 
             ])
             ->relationManagers([

@@ -29,15 +29,16 @@ class EditUser extends EditRecord
             Actions\DeleteAction::make()
                 ->visible(fn (User $record) => $record->email != 'admin@akc.com'),
             Actions\Action::make('changePassword')
+                ->label(trans('users.changePassword'))
                 ->form([
                     TextInput::make('new_password')
+                        ->label(trans('users.new_password'))
                         ->password()
-                        ->label('New Password')
                         ->required()
                         ->revealable(),
                     TextInput::make('new_password_confirmation')
                         ->password()
-                        ->label('Confirm Password')
+                        ->label(trans('users.new_password_confirmation'))
                         ->required()
                         ->same('new_password')
                     ->revealable()
@@ -65,15 +66,18 @@ class EditUser extends EditRecord
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(trans('users.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label(trans('users.email'))
                     ->email()
                     ->required()
                     ->maxLength(255)
                     ->visible(fn (User $record) => $record->email != 'admin@akc.com'),
 
                 Forms\Components\CheckboxList::make('roles')
+                    ->label(trans('users.roles'))
                     ->relationship('roles', 'name')
                     ->visible(fn (User $record) => $record->email != 'admin@akc.com')
             ]);

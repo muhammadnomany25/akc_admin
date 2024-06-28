@@ -2,15 +2,12 @@
 
 namespace App\Filament\Resources\OrderResource\Pages;
 
-use App\Enums\OrderStatus;
 use App\Filament\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderNote;
 use Filament\Actions\Action;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
@@ -30,32 +27,29 @@ class OrderNotesPage extends ManageRelatedRecords
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-ellipsis';
 
-    public function getTitle(): string|Htmlable
+    public static function getModelLabel(): string
     {
-        $recordTitle = $this->getRecordTitle();
-
-        $recordTitle = $recordTitle instanceof Htmlable ? $recordTitle->toHtml() : $recordTitle;
-
-        return "{$recordTitle} Notes";
-    }
-
-    public function getBreadcrumb(): string
-    {
-        return 'OrderNotes';
+        return trans('notes.notes');
     }
 
     public static function getNavigationLabel(): string
     {
-        return 'Order Notes';
+        return trans('orders.notesAction');
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return trans('notes.notes');
     }
 
     protected function getHeaderActions(): array
     {
         return [
             Action::make('create')
-                ->label('Add Notes')
+                ->label(trans('notes.add_notes'))
                 ->form([
                     MarkdownEditor::make('notes')
+                        ->label(trans('notes.notes'))
                         ->columnSpan('full')
                 ])
                 ->action(function (array $data, Order $record): void {
@@ -75,31 +69,35 @@ class OrderNotesPage extends ManageRelatedRecords
     }
 
 
-
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('title')
             ->columns([
                 Tables\Columns\TextColumn::make('content')
-                    ->label('Note')
+                    ->label(trans('notes.notes'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label("By"),
+                    ->label(trans('notes.by')),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(trans('notes.createdAt')),
 
             ])
             ->actions([
                 ViewAction::make()
+                    ->label(trans('notes.details'))
                     ->form([
                         MarkdownEditor::make('content')
+                            ->label(trans('notes.notes'))
                             ->columnSpan('full'),
 
-                         Select::make('user_id')
-                             ->relationship(name: 'user', titleAttribute: 'name')
-                             ->searchable()
-                             ->preload(),
+                        Select::make('user_id')
+                            ->label(trans('notes.by'))
+                            ->relationship(name: 'user', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload(),
                     ]),
             ])
             ->defaultSort('created_at', 'desc')

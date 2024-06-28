@@ -27,15 +27,11 @@ class OrderInvoicePage extends ManageRelatedRecords
 
     protected static string $relationship = 'invoiceItems';
 
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-ellipsis';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     public function getTitle(): string | Htmlable
     {
-        $recordTitle = $this->getRecordTitle();
-
-        $recordTitle = $recordTitle instanceof Htmlable ? $recordTitle->toHtml() : $recordTitle;
-
-        return "{$recordTitle} Invoice";
+        return trans('orders.invoiceAction');
     }
 
     public function getBreadcrumb(): string
@@ -45,87 +41,43 @@ class OrderInvoicePage extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return 'Order Invoice';
+        return trans('orders.invoiceAction');
     }
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-//                Forms\Components\TextInput::make('item_name_en')
-//                    ->required(),
-//
-//                Forms\Components\Select::make('customer_id')
-//                    ->relationship('customer', 'name')
-//                    ->searchable()
-//                    ->required(),
-//
-//                Forms\Components\Toggle::make('is_visible')
-//                    ->label('Approved for public')
-//                    ->default(true),
-//
-//                Forms\Components\MarkdownEditor::make('content')
-//                    ->required()
-//                    ->label('Content'),
-            ])
-            ->columns(1);
-    }
-
-//    public function infolist(Infolist $infolist): Infolist
-//    {
-//        return $infolist
-//            ->columns(1)
-//            ->schema([
-//                TextEntry::make('title'),
-//                TextEntry::make('customer.name'),
-//                IconEntry::make('is_visible')
-//                    ->label('Visibility'),
-//                TextEntry::make('content')
-//                    ->markdown(),
-//            ]);
-//    }
-
-
-//'order_id',
-//'item_name_en',
-//'item_name_ar',
-//'quantity',
-//'item_cost',
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('title')
+            ->recordTitleAttribute('item_name_en')
             ->columns([
                 Tables\Columns\TextColumn::make('item_name_en')
-                    ->label('Title')
+                    ->label(trans('invoice.item_name_en'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('item_name_ar')
-                    ->label('Customer')
+                    ->label(trans('invoice.item_name_ar'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('quantity')
-                    ->label('Customer')
+                    ->label(trans('invoice.quantity'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('item_cost')
-                    ->label('Customer')
+                    ->label(trans('invoice.item_cost'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('total')
-                    ->label('Total')
+                    ->label(trans('invoice.total'))
                     ->money('kwd')
                     ->getStateUsing(function (OrderInvoice $record) {
                         return $record->quantity * $record->item_cost;
                     }),
 
                 Tables\Columns\TextColumn::make('total_cost')
-                    ->label('Total Cost')
+                    ->label(trans('invoice.total_cost'))
                     ->summarize(Summarizer::make()
                         ->money('kwd')
                         ->using(fn (Builder $query): int => $query->sum('quantity') * $query->sum('item_cost') ))

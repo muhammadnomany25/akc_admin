@@ -25,38 +25,59 @@ class OrderResource extends Resource
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
+    protected static ?string $modelLabel = null;
+    protected static ?string $pluralModelLabel = null;
+
+    public static function getPluralModelLabel(): string
+    {
+        return trans('orders.orders');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans('orders.order');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\ToggleButtons::make('status')
+                    ->label(trans('orders.status'))
                     ->inline()
-                    ->options(OrderStatus::class)
+                    ->options(self::getOrderStatusOptions())
                     ->required()
                     ->columnSpan(2),
 
                 Forms\Components\TextInput::make('client_name')
                     ->required()
+                    ->label(trans('orders.client_name'))
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('client_phone')
                     ->tel()
+                    ->string()
+                    ->telRegex('/^([4569]\d{7})$/')
+                    ->prefix('+965')
+                    ->label(trans('orders.client_phone'))
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('client_address')
                     ->required()
+                    ->label(trans('orders.client_address'))
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('client_flat_number')
                     ->required()
+                    ->label(trans('orders.client_flat_number'))
                     ->maxLength(255),
 
                 Select::make('technician_id')
                     ->relationship(name: 'technician', titleAttribute: 'name')
                     ->searchable()
+                    ->label(trans('orders.technician'))
                     ->preload(),
-
-                Forms\Components\MarkdownEditor::make('notes')
-                    ->columnSpan('full'),
             ]);
     }
 
@@ -64,24 +85,40 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('id')
+                    ->label(trans('orders.id')),
+
                 Tables\Columns\TextColumn::make('client_name')
+                    ->label(trans('orders.client_name'))
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('client_phone')
+                    ->label(trans('orders.client_phone'))
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('client_address')
+                    ->label(trans('orders.client_address'))
                     ->hidden(),
+
                 Tables\Columns\TextColumn::make('client_flat_number')
+                    ->label(trans('orders.client_flat_number'))
                     ->hidden(),
-                Tables\Columns\TextColumn::make('status'),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->label(trans('orders.status'))
+                    ->formatStateUsing(function ($state) {
+                        return trans('status.' . $state);
+                    }),
+
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(trans('orders.created_at'))
                     ->dateTime()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('technician.name')
+                    ->label(trans('orders.technician'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('notes')
-                    ->hidden(),
             ])
             ->filters([
                 //
@@ -127,5 +164,14 @@ class OrderResource extends Resource
             Pages\OrderNotesPage::class,
             Pages\OrderInvoicePage::class,
         ]);
+    }
+
+static function getOrderStatusOptions(): array
+    {
+        $options = [];
+        foreach (OrderStatus::cases() as $status) {
+            $options[$status->value] = $status->label();
+        }
+        return $options;
     }
 }

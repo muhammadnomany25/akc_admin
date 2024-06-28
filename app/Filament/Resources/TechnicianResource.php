@@ -21,17 +21,34 @@ class TechnicianResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?int $navigationSort = 1;
+
+    protected static ?string $modelLabel = null;
+    protected static ?string $pluralModelLabel = null;
+
+    public static function getPluralModelLabel(): string
+    {
+        return trans('technicians.technicians');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans('technicians.technicians');
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(trans('technicians.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phoneNumber')
+                    ->label(trans('technicians.phoneNumber'))
                     ->tel()
-                    ->telRegex('/^(\+965[4569]\d{7})$/'),
+                    ->telRegex('/^([4569]\d{7})$/')
+                    ->prefix('+965'),
                 Forms\Components\TextInput::make('password')
+                    ->label(trans('technicians.password'))
                     ->password()
                     ->required()
                     ->maxLength(255),
@@ -43,16 +60,20 @@ class TechnicianResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(trans('technicians.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phoneNumber')
+                    ->label(trans('technicians.phoneNumber'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->hidden()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->hidden()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([

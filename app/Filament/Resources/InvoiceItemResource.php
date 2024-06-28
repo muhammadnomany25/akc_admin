@@ -19,21 +19,35 @@ class InvoiceItemResource extends Resource
     protected static ?string $model = InvoiceItem::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $modelLabel = 'Fix item';
-
     protected static ?int $navigationSort = 2;
+
+    protected static ?string $modelLabel = null;
+    protected static ?string $pluralModelLabel = null;
+
+    public static function getPluralModelLabel(): string
+    {
+        return trans('invoice.fix_items');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans('invoice.fix_item');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title_ar')
+                    ->label(trans('invoice.item_name_ar'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('title_en')
+                    ->label(trans('invoice.item_name_en'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('cost')
+                    ->label(trans('invoice.item_cost'))
                     ->required()
                     ->numeric()
                     ->prefix('KWD'),
@@ -45,10 +59,13 @@ class InvoiceItemResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title_ar')
+                    ->label(trans('invoice.item_name_ar'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title_en')
+                    ->label(trans('invoice.item_name_en'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cost')
+                    ->label(trans('invoice.item_cost'))
                     ->money('kwd')
                     ->sortable(),
 
