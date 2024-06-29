@@ -186,7 +186,8 @@ class OrderResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-                ExportBulkAction::make()
+                ExportBulkAction::make('export')
+                ->label(trans('general.export'))
             ])
             ->defaultSort('created_at', 'desc')
             ->persistSortInSession(true);
