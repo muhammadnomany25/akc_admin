@@ -7,4 +7,5 @@ return [
     'Completed' => 'مكتمل',
     'Duplicated' => 'مكرر',
     'Reassigned' => 'محول لفني',
+    'all' => 'الكل',
 ];

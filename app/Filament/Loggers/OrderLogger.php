@@ -38,7 +38,7 @@ class OrderLogger extends Logger
                     ->label(__(trans('orders.client_flat_number'))),
 
                 Field::make('status')
-                    ->label(__(trans('orders.status'))),
+                    ->label(__(trans('orders.status_'))),
 
                 Field::make('technician.name')
                     ->label(__(trans('orders.technician'))),

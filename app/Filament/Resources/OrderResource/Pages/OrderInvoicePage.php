@@ -34,12 +34,12 @@ class OrderInvoicePage extends ManageRelatedRecords
         return trans('orders.invoiceAction');
     }
 
-    public function getBreadcrumb(): string
+    public static function getNavigationLabel(): string
     {
-        return 'OrderInvoice';
+        return trans('orders.invoiceAction');
     }
 
-    public static function getNavigationLabel(): string
+    public static function getModelLabel(): string
     {
         return trans('orders.invoiceAction');
     }

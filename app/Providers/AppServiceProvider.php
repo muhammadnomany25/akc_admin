@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
@@ -32,5 +33,8 @@ class AppServiceProvider extends ServiceProvider
             $switch
                 ->locales(['ar','en']);
         });
+
+        $locale = session('locale', 'ar'); // Default to English if no locale is set in the session
+        App::setLocale($locale);
     }
 }

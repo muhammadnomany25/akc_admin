@@ -39,7 +39,7 @@ class OrderNotesPage extends ManageRelatedRecords
 
     public function getTitle(): string|Htmlable
     {
-        return trans('notes.notes');
+        return trans('notes.notes_');
     }
 
     protected function getHeaderActions(): array

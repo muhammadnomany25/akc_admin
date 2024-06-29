@@ -2,7 +2,7 @@
 
 
 return [
-    'orders' => 'الطلبات',
+    'orders_' => 'الطلبات',
     'id' => 'رقم الطلب',
     'client_name' => 'اسم العميل',
     'client_phone' => 'رقم الهاتف',
@@ -11,14 +11,15 @@ return [
     'created_at' => 'تم الإنشاء',
     'created_by' => '',
     'technician' => 'الفني',
-    'status' => 'الحالة',
-    'order' => 'طلب',
-    'notes' => 'ملاحظات',
+    'status_' => 'الحالة',
+    'order_' => 'طلب',
+    'notes_' => 'ملاحظات',
     'changeOrAssignTechnician' => 'تعيين آو تغيير الفني',
 
     'viewAction' => 'التفاصيل',
     'editAction' => 'تعديل',
     'notesAction' => 'الملاحظات',
     'invoiceAction' => 'الفاتورة',
+    'order_creator' => 'تم الإنشاء بواسطة',
 
 ];

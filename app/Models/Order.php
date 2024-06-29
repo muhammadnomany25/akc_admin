@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -13,9 +14,13 @@ class Order extends Model
         'client_address',
         'client_flat_number',
         'status',
-        'technician_id'
+        'technician_id',
+        'user_id'
     ];
 
+    protected $casts = [
+        'status' => OrderStatus::class,
+    ];
     public function invoiceItems()
     {
         return $this->hasMany(OrderInvoice::class);
@@ -29,6 +34,11 @@ class Order extends Model
     public function notes()
     {
         return $this->hasMany(OrderNote::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

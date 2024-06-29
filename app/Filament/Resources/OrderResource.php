@@ -15,6 +15,7 @@ use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class OrderResource extends Resource
@@ -30,55 +31,88 @@ class OrderResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return trans('orders.orders');
+        return trans('orders.orders_');
     }
 
     public static function getModelLabel(): string
     {
-        return trans('orders.order');
+        return trans('orders.order_');
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\ToggleButtons::make('status')
-                    ->label(trans('orders.status'))
-                    ->inline()
-                    ->options(self::getOrderStatusOptions())
-                    ->required()
-                    ->columnSpan(2),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\ToggleButtons::make('status')
+                            ->label(trans('orders.status_'))
+                            ->inline()
+                            ->options(OrderStatus::class)
+                            ->required()
+                            ->columnSpan(2),
 
-                Forms\Components\TextInput::make('client_name')
-                    ->required()
-                    ->label(trans('orders.client_name'))
-                    ->maxLength(255),
+                        Forms\Components\TextInput::make('client_name')
+                            ->required()
+                            ->label(trans('orders.client_name'))
+                            ->maxLength(255),
 
-                Forms\Components\TextInput::make('client_phone')
-                    ->tel()
-                    ->string()
-                    ->telRegex('/^([4569]\d{7})$/')
-                    ->prefix('+965')
-                    ->label(trans('orders.client_phone'))
-                    ->required()
-                    ->maxLength(255),
+                        Forms\Components\TextInput::make('client_phone')
+                            ->tel()
+                            ->string()
+                            ->telRegex('/^([4569]\d{7})$/')
+                            ->prefix('+965')
+                            ->label(trans('orders.client_phone'))
+                            ->required()
+                            ->maxLength(255),
 
-                Forms\Components\TextInput::make('client_address')
-                    ->required()
-                    ->label(trans('orders.client_address'))
-                    ->maxLength(255),
+                        Forms\Components\TextInput::make('client_address')
+                            ->required()
+                            ->label(trans('orders.client_address'))
+                            ->maxLength(255),
 
-                Forms\Components\TextInput::make('client_flat_number')
-                    ->required()
-                    ->label(trans('orders.client_flat_number'))
-                    ->maxLength(255),
+                        Forms\Components\TextInput::make('client_flat_number')
+                            ->required()
+                            ->label(trans('orders.client_flat_number'))
+                            ->maxLength(255),
 
-                Select::make('technician_id')
-                    ->relationship(name: 'technician', titleAttribute: 'name')
-                    ->searchable()
-                    ->label(trans('orders.technician'))
-                    ->preload(),
-            ]);
+                        Select::make('technician_id')
+                            ->relationship(name: 'technician', titleAttribute: 'name')
+                            ->searchable()
+                            ->label(trans('orders.technician'))
+                            ->preload(),
+
+                        Select::make('user_id')
+                            ->label(trans('orders.order_creator'))
+                            ->options([
+                                Auth::id() => Auth::user()->name,
+                            ])
+                            ->preload()
+                            ->default(Auth::id())
+                            ->required()
+
+                    ])
+                    ->columnSpan(['lg' => fn(?Order $record) => $record === null ? 3 : 2]),
+
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label(trans('general.createdAt'))
+                            ->content(fn(Order $record): ?string => $record->created_at?->diffForHumans()),
+
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label(trans('general.last_modified_at'))
+                            ->content(fn(Order $record): ?string => $record->updated_at?->diffForHumans()),
+
+                        Forms\Components\Placeholder::make('user_id')
+                            ->label(trans('orders.order_creator'))
+                            ->content(fn(Order $record): ?string => $record->user?->name),
+
+                    ])
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn(?Order $record) => $record === null),
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table
@@ -105,10 +139,8 @@ class OrderResource extends Resource
                     ->hidden(),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label(trans('orders.status'))
-                    ->formatStateUsing(function ($state) {
-                        return trans('status.' . $state);
-                    }),
+                    ->label(trans('orders.status_'))
+                    ->badge(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(trans('orders.created_at'))
@@ -126,8 +158,8 @@ class OrderResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('activities')
-                    ->url(fn($record) => Activities::getSubjectUrl($record))
+//                Tables\Actions\Action::make('activities')
+//                    ->url(fn($record) => Activities::getSubjectUrl($record))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -166,7 +198,7 @@ class OrderResource extends Resource
         ]);
     }
 
-static function getOrderStatusOptions(): array
+    static function getOrderStatusOptions(): array
     {
         $options = [];
         foreach (OrderStatus::cases() as $status) {
