@@ -7,6 +7,7 @@ use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Pages\SubNavigationPosition;
@@ -49,6 +50,7 @@ class OrderResource extends Resource
                             ->label(trans('orders.status_'))
                             ->inline()
                             ->options(OrderStatus::class)
+                            ->default(OrderStatus::New->value)
                             ->required()
                             ->columnSpan(2),
 
@@ -89,7 +91,11 @@ class OrderResource extends Resource
                             ])
                             ->preload()
                             ->default(Auth::id())
-                            ->required()
+                            ->required(),
+
+                        MarkdownEditor::make('notes')
+                            ->label(trans('orders.notes_'))
+                            ->columnSpan('full'),
 
                     ])
                     ->columnSpan(['lg' => fn(?Order $record) => $record === null ? 3 : 2]),
