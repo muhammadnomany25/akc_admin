@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Enums\OrderStatus;
-use App\Filament\Pages\Activities;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
@@ -14,6 +13,7 @@ use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
@@ -142,6 +142,12 @@ class OrderResource extends Resource
                     ->label(trans('orders.status_'))
                     ->badge(),
 
+                Tables\Columns\TextColumn::make('notes')
+                    ->label(trans('orders.notes_'))
+                    ->extraAttributes([
+                        'style' => 'max-width: 300px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; white-space: normal;',
+                    ]),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(trans('orders.created_at'))
                     ->dateTime()
@@ -153,7 +159,22 @@ class OrderResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\Section::make(trans('general.createdAt'))
+                            ->schema([
+                                Forms\Components\DatePicker::make('created_from')
+                                    ->label(trans('general.from')),
+                                Forms\Components\DatePicker::make('created_until')
+                                    ->label(trans('general.to')),
+                            ])
+
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['created_from'], fn($query, $date) => $query->whereDate('created_at', '>=', $date))
+                            ->when($data['created_until'], fn($query, $date) => $query->whereDate('created_at', '<=', $date));
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -166,7 +187,9 @@ class OrderResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
                 ExportBulkAction::make()
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc')
+            ->persistSortInSession(true);
     }
 
     public static function getRelations(): array
@@ -193,7 +216,7 @@ class OrderResource extends Resource
         return $page->generateNavigationItems([
             Pages\ViewOrder::class,
             Pages\EditOrder::class,
-            Pages\OrderNotesPage::class,
+//            Pages\OrderNotesPage::class,
             Pages\OrderInvoicePage::class,
         ]);
     }

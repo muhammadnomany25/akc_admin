@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Filament\Resources\OrderResource;
 use App\Models\Order;
 use Filament\Actions;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -75,6 +76,11 @@ class EditOrder extends EditRecord
                             ->searchable()
                             ->label(trans('orders.technician'))
                             ->preload(),
+
+                        MarkdownEditor::make('notes')
+                            ->label(trans('orders.notes_'))
+                            ->columnSpan('full'),
+
                     ])
                     ->columnSpan(['lg' => fn(?Order $record) => $record === null ? 3 : 2]),
             ])

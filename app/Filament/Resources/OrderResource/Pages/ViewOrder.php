@@ -103,6 +103,12 @@ class ViewOrder extends ViewRecord
                             ->label(trans('orders.technician'))
                             ->preload(),
 
+                        TextInput::make('notes')
+                            ->required()
+                            ->label(trans('orders.notes_'))
+                            ->maxLength(255)
+                            ->columnSpan(2),
+
                     ])
                     ->columnSpan(['lg' => fn(?Order $record) => $record === null ? 3 : 2]),
 

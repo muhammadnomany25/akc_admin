@@ -15,7 +15,8 @@ class Order extends Model
         'client_flat_number',
         'status',
         'technician_id',
-        'user_id'
+        'user_id',
+        'notes',
     ];
 
     protected $casts = [
