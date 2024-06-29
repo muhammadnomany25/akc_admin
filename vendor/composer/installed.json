@@ -11815,6 +11815,57 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "install-path": "../webmozart/assert"
+        },
+        {
+            "name": "yemenopensource/filament-excel",
+            "version": "0.1.0",
+            "version_normalized": "0.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YemenOpenSource/filament-excel.git",
+                "reference": "ea62aba183e52bd0aa515ec3bd56b328ae2402e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YemenOpenSource/filament-excel/zipball/ea62aba183e52bd0aa515ec3bd56b328ae2402e0",
+                "reference": "ea62aba183e52bd0aa515ec3bd56b328ae2402e0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^11",
+                "maatwebsite/excel": "^3.1"
+            },
+            "time": "2024-06-05T22:37:04+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YOS\\FilamentExcel\\ServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "YOS\\FilamentExcel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "muathye",
+                    "email": "muath.ye@gmail.com"
+                }
+            ],
+            "description": "This package useful for importing excel files into models.",
+            "support": {
+                "issues": "https://github.com/YemenOpenSource/filament-excel/issues",
+                "source": "https://github.com/YemenOpenSource/filament-excel/tree/v0.1.0"
+            },
+            "install-path": "../yemenopensource/filament-excel"
         }
     ],
     "dev": true,

@@ -68,6 +68,10 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         array (
             'ZipStream\\' => 10,
         ),
+        'Y' => 
+        array (
+            'YOS\\FilamentExcel\\' => 18,
+        ),
         'W' => 
         array (
             'Whoops\\' => 7,
@@ -268,6 +272,10 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
+        ),
+        'YOS\\FilamentExcel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yemenopensource/filament-excel/src',
         ),
         'Whoops\\' => 
         array (
@@ -9766,6 +9774,11 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'YOS\\FilamentExcel\\Actions\\Import' => __DIR__ . '/..' . '/yemenopensource/filament-excel/src/Actions/Import.php',
+        'YOS\\FilamentExcel\\Concerns\\HasHint' => __DIR__ . '/..' . '/yemenopensource/filament-excel/src/Concerns/HasHint.php',
+        'YOS\\FilamentExcel\\Concerns\\HasImport' => __DIR__ . '/..' . '/yemenopensource/filament-excel/src/Concerns/HasImport.php',
+        'YOS\\FilamentExcel\\Concerns\\HasType' => __DIR__ . '/..' . '/yemenopensource/filament-excel/src/Concerns/HasType.php',
+        'YOS\\FilamentExcel\\ServiceProvider' => __DIR__ . '/..' . '/yemenopensource/filament-excel/src/ServiceProvider.php',
         'ZipStream\\CentralDirectoryFileHeader' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/CentralDirectoryFileHeader.php',
         'ZipStream\\CompressionMethod' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/CompressionMethod.php',
         'ZipStream\\DataDescriptor' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/DataDescriptor.php',

@@ -10,6 +10,7 @@ return array(
     'pxlrbt\\FilamentExcel\\' => array($vendorDir . '/pxlrbt/filament-excel/src'),
     'pxlrbt\\FilamentActivityLog\\' => array($vendorDir . '/pxlrbt/filament-activity-log/src'),
     'ZipStream\\' => array($vendorDir . '/maennchen/zipstream-php/src'),
+    'YOS\\FilamentExcel\\' => array($vendorDir . '/yemenopensource/filament-excel/src'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'TijsVerkoyen\\CssToInlineStyles\\' => array($vendorDir . '/tijsverkoyen/css-to-inline-styles/src'),

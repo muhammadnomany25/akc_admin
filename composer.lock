@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc70f99e4fa92aab7af41f19c2022f03",
+    "content-hash": "602cb935fc4fd5ceaf1f0c8c7972cc5c",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -9211,6 +9211,54 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "yemenopensource/filament-excel",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YemenOpenSource/filament-excel.git",
+                "reference": "ea62aba183e52bd0aa515ec3bd56b328ae2402e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YemenOpenSource/filament-excel/zipball/ea62aba183e52bd0aa515ec3bd56b328ae2402e0",
+                "reference": "ea62aba183e52bd0aa515ec3bd56b328ae2402e0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^11",
+                "maatwebsite/excel": "^3.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YOS\\FilamentExcel\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YOS\\FilamentExcel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "muathye",
+                    "email": "muath.ye@gmail.com"
+                }
+            ],
+            "description": "This package useful for importing excel files into models.",
+            "support": {
+                "issues": "https://github.com/YemenOpenSource/filament-excel/issues",
+                "source": "https://github.com/YemenOpenSource/filament-excel/tree/v0.1.0"
+            },
+            "time": "2024-06-05T22:37:04+00:00"
         }
     ],
     "packages-dev": [
