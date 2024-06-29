@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Maatwebsite\Excel\ExcelServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,9 @@ class AppServiceProvider extends ServiceProvider
         $locale = session('locale', 'ar'); // Default to English if no locale is set in the session
         App::setLocale($locale);
 
+        if (class_exists(ExcelServiceProvider::class)) {
+            $this->app->register(ExcelServiceProvider::class);
+        }
 //        Maatwebsite\Excel\ExcelServiceProvider::class
     }
 }
