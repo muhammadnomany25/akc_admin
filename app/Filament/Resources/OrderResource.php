@@ -66,6 +66,7 @@ class OrderResource extends Resource
                             ->prefix('+965')
                             ->label(trans('orders.client_phone'))
                             ->required()
+                            ->columnSpan(2)
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('client_address')
@@ -76,13 +77,15 @@ class OrderResource extends Resource
                         Forms\Components\TextInput::make('client_flat_number')
                             ->required()
                             ->label(trans('orders.client_flat_number'))
-                            ->maxLength(255),
+                            ->maxLength(255)
+                        ->hidden(),
 
                         Select::make('technician_id')
                             ->relationship(name: 'technician', titleAttribute: 'name')
                             ->searchable()
                             ->label(trans('orders.technician'))
-                            ->preload(),
+                            ->preload()
+                        ->columnSpan(2),
 
                         Select::make('user_id')
                             ->label(trans('orders.order_creator'))
@@ -138,11 +141,12 @@ class OrderResource extends Resource
 
                 Tables\Columns\TextColumn::make('client_address')
                     ->label(trans('orders.client_address'))
-                    ->hidden(),
+                    ,
 
                 Tables\Columns\TextColumn::make('client_flat_number')
                     ->label(trans('orders.client_flat_number'))
-                    ->hidden(),
+                    ->hidden()
+                    ,
 
                 Tables\Columns\TextColumn::make('status')
                     ->label(trans('orders.status_'))
