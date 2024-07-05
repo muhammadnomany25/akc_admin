@@ -45,6 +45,7 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make()
+                    ->columnSpan(2)
                     ->schema([
                         Forms\Components\ToggleButtons::make('status')
                             ->label(trans('orders.status_'))
